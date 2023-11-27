@@ -34,6 +34,10 @@ jobs:
       - name: run tests
         run: ./gradlew --refresh-dependencies check
 
+      - name: collect reports
+        if: always()   # run this step even if previous step failed
+        run: ./gradlew testReport
+
       - name: jar
         run: ./gradlew :library:clean :library:assemble :library:testClasses :library:jar
 

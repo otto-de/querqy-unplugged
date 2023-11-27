@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'test-report-aggregation'
 }
 
 group 'org.example'
@@ -18,4 +19,11 @@ dependencies {
 
 test {
     useJUnitPlatform()
+
+}
+
+tasks.register('testReport', TestReport) {
+    destinationDir = file("$buildDir/reports/test-results")
+    // Include the results from the `test` task in all subprojects
+    reportOn subprojects*.test
 }
