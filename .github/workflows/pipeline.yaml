@@ -16,8 +16,7 @@ permissions:
 jobs:
   build-from-script:
     runs-on: ubuntu-latest
-    outputs:
-      version: ${{ steps.version.outputs.version }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -26,8 +25,8 @@ jobs:
       - name: setup java
         uses: actions/setup-java@v3
         with:
-          distribution: 'temurin' # See 'Supported distributions' for available options
-          java-version: '${{ inputs.jdk }}'
+          distribution: 'temurin'
+          java-version: '11'
 
       - name: ECR Login
         uses: aws-actions/amazon-ecr-login@v1
