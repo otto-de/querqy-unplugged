@@ -41,10 +41,11 @@ jobs:
       - name: jar
         run: ./gradlew :library:clean :library:assemble :library:testClasses :library:jar
 
-      - name: test report
-        uses: dorny/test-reporter@v1
-        if: always()   # run this step even if previous step failed
-        with:
-          name: test report                       # Name of the check run which will be created
-          path: build/test-results/**/TEST-*.xml   # Path to test results
-          reporter: java-junit
+
+#      - name: test report
+#        uses: dorny/test-reporter@v1
+#        if: always()   # run this step even if previous step failed
+#        with:
+#          name: test report                       # Name of the check run which will be created
+#          path: build/test-results/**/TEST-*.xml   # Path to test results
+#          reporter: java-junit

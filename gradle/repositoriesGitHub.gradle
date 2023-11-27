@@ -23,8 +23,8 @@ allprojects {
             name "GitHub"
             url "https://maven.pkg.github.com/otto-de/querqy-unplugged"
             credentials {
-                username = project.findProperty("gpr.user") ?: System.getenv("FKT_USER")
-                password = project.findProperty("gpr.key") ?: System.getenv("FKT_KEY")
+                username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_ACTOR")
+                password = project.findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")
             }
         }
         flatDir {
@@ -37,15 +37,17 @@ publishing {
     repositories {
         maven {
             name "Github"
-            url "https://maven.pkg.github.com/otto-ec/nucleus_libs"
+            url "https://maven.pkg.github.com/otto-de/querqy-unplugged"
             credentials {
-                username = project.findProperty("gpr.user") ?: System.getenv("FKT_USER")
-                password = project.findProperty("gpr.key") ?: System.getenv("FKT_KEY")
+                username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_ACTOR")
+                password = project.findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")
             }
         }
     }
+
     publications {
         gpr(MavenPublication) {
+            artifactId project.name
             from(components.java)
         }
     }

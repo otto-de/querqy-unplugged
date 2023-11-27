@@ -45,68 +45,6 @@ java {
     sourceCompatibility = 11
 }
 
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            groupId = 'org.querqy'
-            artifactId = 'querqy-unplugged-solr'
-            version = "$version"
-
-            from components.java
-
-            versionMapping {
-                usage('java-api') {
-                    fromResolutionOf('runtimeClasspath')
-                }
-                usage('java-runtime') {
-                    fromResolutionResult()
-                }
-            }
-            pom {
-                name = 'Querqy Unplugged Solr'
-                description = 'A lightweight Solr plugin that allows the usage of some lucene queries via Solr JSON DSL'
-                url = 'https://querqy.org'
-
-                licenses {
-                    license {
-                        name = 'The Apache License, Version 2.0'
-                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    }
-                }
-                developers {
-                    developer {
-                        id = 'jope'
-                        name = 'Johannes Peter'
-                        email = 'johannesdaniel.peter@gmx.de'
-                    }
-                }
-                scm {
-                    url = 'git@github.com:querqy/querqy-unplugged.git'
-                    connection = 'scm:git:git@github.com:querqy/querqy-unplugged.git'
-                    developerConnection = 'scm:git:git@github.com:querqy/querqy-unplugged.git'
-                }
-            }
-        }
-    }
-    repositories {
-        maven {
-            def releasesRepoUrl = 'https://oss.sonatype.org/service/local/staging/deploy/maven2'
-            def snapshotsRepoUrl = 'https://s01.oss.sonatype.org/content/repositories/snapshots/'
-
-            name = 'sonatype'
-            url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
-            credentials(PasswordCredentials)
-        }
-    }
-}
-
-signing {
-    def signingKey = findProperty("signingKey")
-    def signingPassword = findProperty("signingPassword")
-    useInMemoryPgpKeys(signingKey, signingPassword)
-    sign publishing.publications.mavenJava
-}
-
 
 javadoc {
     if(JavaVersion.current().isJava9Compatible()) {

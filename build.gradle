@@ -19,7 +19,6 @@ dependencies {
 
 test {
     useJUnitPlatform()
-
 }
 
 tasks.register('testReport', TestReport) {
