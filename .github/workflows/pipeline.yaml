@@ -28,12 +28,8 @@ jobs:
           distribution: 'temurin'
           java-version: '11'
 
-      - name: ECR Login
-        uses: aws-actions/amazon-ecr-login@v1
       - name: Setup Gradle
-        uses: gradle/gradle-build-action@v2.9.0
-        with:
-          gradle-version: ${{ env.JDK_VERSION }}
+        uses: gradle/gradle-build-action@v2.10.0
 
       - name: run tests
         run: ./gradlew --refresh-dependencies check
