@@ -1,0 +1,52 @@
+/**
+ *                               (
+ *    (        (  (       (      )\ )
+ *  ( )\  (    )\))(   '  )\    (()/( (
+ *  )((_) )\  ((_)()\ )((((_)(   /(_)))\
+ * ((_)_ ((_) _(())\_)())\ _ )\ (_)) ((_)
+ *  | _ )| __|\ \((_)/ /(_)_\(_)| _ \| __|
+ *  | _ \| _|  \ \/\/ /  / _ \  |   /| _|
+ *  |___/|___|  \_/\_/  /_/ \_\ |_|_\|___|
+ *
+ This file is a copy from the pipeline-scripts project (git@github.com:otto-ec/search_pipeline-scripts.git)
+ It will be overwritten every night by the source from the pipeline-scripts.
+ If you want to make changes to it that should be available globally, change it in the pipeline-scripts repo.
+ If you have a change unique to this project consider putting the information elsewhere.
+ */
+apply plugin: 'maven-publish'
+
+allprojects {
+    repositories {
+        // mavenLocal() uncomment to
+        mavenCentral()
+        maven {
+            name "GitHub"
+            url "https://maven.pkg.github.com/otto-de/querqy-unplugged"
+            credentials {
+                username = project.findProperty("gpr.user") ?: System.getenv("FKT_USER")
+                password = project.findProperty("gpr.key") ?: System.getenv("FKT_KEY")
+            }
+        }
+        flatDir {
+            dirs "libs"
+        }
+    }
+}
+
+publishing {
+    repositories {
+        maven {
+            name "Github"
+            url "https://maven.pkg.github.com/otto-ec/nucleus_libs"
+            credentials {
+                username = project.findProperty("gpr.user") ?: System.getenv("FKT_USER")
+                password = project.findProperty("gpr.key") ?: System.getenv("FKT_KEY")
+            }
+        }
+    }
+    publications {
+        gpr(MavenPublication) {
+            from(components.java)
+        }
+    }
+}

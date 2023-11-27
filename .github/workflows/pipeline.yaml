@@ -1,0 +1,51 @@
+name: 'querqy-unplugged'
+on:
+  push:
+    branches:
+      - main
+env:
+  SERVICE_NAME: querqy-unplugged
+  JDK_VERSION: 11
+
+permissions:
+  id-token: write
+  contents: read    # This is required for actions/checkout
+  statuses: write
+  checks: write
+
+jobs:
+  build-from-script:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: setup java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin' # See 'Supported distributions' for available options
+          java-version: '${{ inputs.jdk }}'
+
+      - name: ECR Login
+        uses: aws-actions/amazon-ecr-login@v1
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2.9.0
+        with:
+          gradle-version: ${{ env.JDK_VERSION }}
+
+      - name: run tests
+        run: ./gradlew --refresh-dependencies check
+
+      - name: jar
+        run: ./gradlew :library:clean :library:assemble :library:testClasses :library:jar
+
+      - name: test report
+        uses: dorny/test-reporter@v1
+        if: always()   # run this step even if previous step failed
+        with:
+          name: test report                       # Name of the check run which will be created
+          path: build/test-results/**/TEST-*.xml   # Path to test results
+          reporter: java-junit
